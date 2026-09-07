@@ -1,220 +1,3 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ऑनलाइन ओपीडी रजिस्ट्रेशन - CSC क्लिनिक</title>
-  <style>
-    :root {
-      --primary: #0284c7;
-      --primary-dark: #0369a1;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #1e293b;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding: 20px 10px;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: var(--card);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 12px;
-    }
-    .header h2 {
-      color: var(--primary-dark);
-      font-size: 24px;
-    }
-    .header p {
-      font-size: 14px;
-      color: #64748b;
-      margin-top: 4px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    input, select {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 15px;
-      outline: none;
-      transition: 0.2s;
-    }
-    input:focus, select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-    }
-    .btn {
-      width: 100%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 13px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 5px;
-      transition: 0.2s;
-    }
-    .btn:hover {
-      background: var(--primary-dark);
-    }
-    .btn:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-    }
-    /* पर्ची स्लिप */
-    #slip-card {
-      display: none;
-      border: 2px dashed #0284c7;
-      background: #f0f9ff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-    .slip-header {
-      text-align: center;
-      margin-bottom: 12px;
-    }
-    .token-number {
-      font-size: 36px;
-      font-weight: bold;
-      color: #0369a1;
-      text-align: center;
-      margin: 10px 0 15px 0;
-      background: #e0f2fe;
-      padding: 8px;
-      border-radius: 8px;
-    }
-    .slip-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 8px 0;
-      font-size: 15px;
-      border-bottom: 1px dotted #cbd5e1;
-      padding-bottom: 4px;
-    }
-    .slip-btns {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .btn-secondary {
-      background: #64748b;
-    }
-    .btn-secondary:hover {
-      background: #475569;
-    }
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #slip-card, #slip-card * {
-        visibility: visible;
-      }
-      #slip-card {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        border: 1px solid #000;
-      }
-      .slip-btns {
-        display: none;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <div class="header">
-      <h2>ऑनलाइन ओपीडी रजिस्ट्रेशन</h2>
-      <p>जन सेवा केंद्र (CSC) / प्राथमिक स्वास्थ्य केंद्र</p>
-    </div>
-
-    <!-- रजिस्ट्रेशन फॉर्म -->
-    <form id="opdForm">
-      <div class="form-group">
-        <label for="pName">मरीज का पूरा नाम *</label>
-        <input type="text" id="pName" placeholder="उदा. राहुल कुमार" required>
-      </div>
-
-      <div style="display: flex; gap: 10px;">
-        <div class="form-group" style="flex: 1;">
-          <label for="pAge">उम्र (वर्ष) *</label>
-          <input type="number" id="pAge" placeholder="उदा. 28" required>
-        </div>
-        <div class="form-group" style="flex: 1;">
-          <label for="pGender">लिंग *</label>
-          <select id="pGender" required>
-            <option value="">चुनें</option>
-            <option value="पुरुष">पुरुष</option>
-            <option value="महिला">महिला</option>
-            <option value="अन्य">अन्य</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="pPhone">मोबाइल नंबर *</label>
-        <input type="tel" id="pPhone" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर" required>
-      </div>
-
-      <div class="form-group">
-        <label for="pDate">दिखाने की तारीख *</label>
-        <input type="date" id="pDate" required>
-      </div>
-
-      <button type="submit" id="submitBtn" class="btn">ओपीडी पर्ची जनरेट करें</button>
-    </form>
-
-    <!-- पर्ची (टोकन) -->
-    <div id="slip-card">
-      <div class="slip-header">
-        <h3>ओपीडी अप्वाइंटमेंट पर्ची</h3>
-        <p style="font-size: 13px; color: #475569;">कृपया यह टोकन क्लिनिक में दिखाएं</p>
-      </div>
-
-      <div class="token-number" id="sToken">OPD-1</div>
-
-      <div class="slip-row"><span>मरीज का नाम:</span> <strong id="sName">-</strong></div>
-      <div class="slip-row"><span>उम्र / लिंग:</span> <strong id="sAgeGender">-</strong></div>
-      <div class="slip-row"><span>मोबाइल:</span> <strong id="sPhone">-</strong></div>
-      <div class="slip-row"><span>दिखाने की तारीख:</span> <strong id="sDate">-</strong></div>
-
-      <div class="slip-btns">
-        <button type="button" class="btn" onclick="window.print()">पर्ची प्रिंट / PDF सेव करें</button>
-        <button type="button" class="btn btn-secondary" onclick="newBooking()">नया रजिस्ट्रेशन</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('pDate');
@@ -238,7 +21,6 @@
       const savedDate = localStorage.getItem('opd_last_date');
       let currentCounter = parseInt(localStorage.getItem('opd_daily_counter') || '0', 10);
 
-      // रोज 1 से शुरू होने वाला काउंटर
       if (savedDate !== selectedDate) {
         currentCounter = 1;
       } else {
@@ -249,28 +31,30 @@
       localStorage.setItem('opd_daily_counter', currentCounter);
 
       const token = "OPD-" + currentCounter;
+      const name = document.getElementById('pName').value;
+      const age = document.getElementById('pAge').value;
+      const gender = document.getElementById('pGender').value;
+      const phone = document.getElementById('pPhone').value;
 
-      const patientData = {
-        token: token,
-        name: document.getElementById('pName').value,
-        age: document.getElementById('pAge').value,
-        gender: document.getElementById('pGender').value,
-        phone: document.getElementById('pPhone').value,
-        date: selectedDate
-      };
+      // Google Sheet को बिना किसी रुकावट के डेटा भेजने का सबसे सुरक्षित तरीका
+      const formData = new URLSearchParams();
+      formData.append("token", token);
+      formData.append("name", name);
+      formData.append("age", age);
+      formData.append("gender", gender);
+      formData.append("phone", phone);
+      formData.append("date", selectedDate);
 
-      // Google Sheet में डेटा भेजना
       fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(patientData)
+        body: formData
       }).then(() => {
         document.getElementById('sToken').innerText = token;
-        document.getElementById('sName').innerText = patientData.name;
-        document.getElementById('sAgeGender').innerText = `${patientData.age} वर्ष / ${patientData.gender}`;
-        document.getElementById('sPhone').innerText = patientData.phone;
-        document.getElementById('sDate').innerText = patientData.date;
+        document.getElementById('sName').innerText = name;
+        document.getElementById('sAgeGender').innerText = `${age} वर्ष / ${gender}`;
+        document.getElementById('sPhone').innerText = phone;
+        document.getElementById('sDate').innerText = selectedDate;
 
         form.style.display = 'none';
         slip.style.display = 'block';
@@ -290,5 +74,4 @@
       slip.style.display = 'none';
     }
   </script>
-</body>
-</html>
+  
