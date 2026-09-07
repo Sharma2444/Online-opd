@@ -84,7 +84,11 @@
     .btn:hover {
       background: var(--primary-dark);
     }
-    /* टोकन स्लिप */
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    /* पर्ची स्लिप */
     #slip-card {
       display: none;
       border: 2px dashed #0284c7;
@@ -154,7 +158,7 @@
       <p>जन सेवा केंद्र (CSC) / प्राथमिक स्वास्थ्य केंद्र</p>
     </div>
 
-    <!-- फॉर्म -->
+    <!-- रजिस्ट्रेशन फॉर्म -->
     <form id="opdForm">
       <div class="form-group">
         <label for="pName">मरीज का पूरा नाम *</label>
@@ -187,7 +191,7 @@
         <input type="date" id="pDate" required>
       </div>
 
-      <button type="submit" class="btn">ओपीडी पर्ची जनरेट करें</button>
+      <button type="submit" id="submitBtn" class="btn">ओपीडी पर्ची जनरेट करें</button>
     </form>
 
     <!-- पर्ची (टोकन) -->
@@ -212,7 +216,6 @@
   </div>
 
   <script>
-    // आज की तारीख सेट करना
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('pDate');
     dateInput.setAttribute('min', today);
@@ -220,44 +223,64 @@
 
     const form = document.getElementById('opdForm');
     const slip = document.getElementById('slip-card');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // आपका Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKM9YZDXS7gke6Si-mr0cHpXAP8EJcVE3wlk5zfqDT7oN1u06QNbFPL7My3K5npx4N/exec";
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // रोज 1 से शुरू होने वाला टोकन लॉजिक
+      submitBtn.innerText = "पर्ची जनरेट हो रही है...";
+      submitBtn.disabled = true;
+
       const selectedDate = dateInput.value;
       const savedDate = localStorage.getItem('opd_last_date');
       let currentCounter = parseInt(localStorage.getItem('opd_daily_counter') || '0', 10);
 
-      // यदि तारीख बदल गई है तो टोकन वापस 1 से शुरू होगा
+      // रोज 1 से शुरू होने वाला काउंटर
       if (savedDate !== selectedDate) {
         currentCounter = 1;
       } else {
         currentCounter += 1;
       }
 
-      // अपडेटेड नंबर सेव करना
       localStorage.setItem('opd_last_date', selectedDate);
       localStorage.setItem('opd_daily_counter', currentCounter);
 
       const token = "OPD-" + currentCounter;
 
-      // फॉर्म से डेटा लेना
-      const name = document.getElementById('pName').value;
-      const age = document.getElementById('pAge').value;
-      const gender = document.getElementById('pGender').value;
-      const phone = document.getElementById('pPhone').value;
+      const patientData = {
+        token: token,
+        name: document.getElementById('pName').value,
+        age: document.getElementById('pAge').value,
+        gender: document.getElementById('pGender').value,
+        phone: document.getElementById('pPhone').value,
+        date: selectedDate
+      };
 
-      // स्लिप में डेटा दिखाना
-      document.getElementById('sToken').innerText = token;
-      document.getElementById('sName').innerText = name;
-      document.getElementById('sAgeGender').innerText = `${age} वर्ष / ${gender}`;
-      document.getElementById('sPhone').innerText = phone;
-      document.getElementById('sDate').innerText = selectedDate;
+      // Google Sheet में डेटा भेजना
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patientData)
+      }).then(() => {
+        document.getElementById('sToken').innerText = token;
+        document.getElementById('sName').innerText = patientData.name;
+        document.getElementById('sAgeGender').innerText = `${patientData.age} वर्ष / ${patientData.gender}`;
+        document.getElementById('sPhone').innerText = patientData.phone;
+        document.getElementById('sDate').innerText = patientData.date;
 
-      // फॉर्म छिपाकर स्लिप दिखाना
-      form.style.display = 'none';
-      slip.style.display = 'block';
+        form.style.display = 'none';
+        slip.style.display = 'block';
+        submitBtn.innerText = "ओपीडी पर्ची जनरेट करें";
+        submitBtn.disabled = false;
+      }).catch(err => {
+        alert("डेटा सेव करने में समस्या आई, कृपया दोबारा प्रयास करें।");
+        submitBtn.innerText = "ओपीडी पर्ची जनरेट करें";
+        submitBtn.disabled = false;
+      });
     });
 
     function newBooking() {
@@ -268,5 +291,4 @@
     }
   </script>
 </body>
-                                                      </html>
-                                                      
+</html>
