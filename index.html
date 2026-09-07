@@ -24,7 +24,7 @@
       padding: 20px 10px;
     }
     .container {
-      max-width: 550px;
+      max-width: 500px;
       margin: auto;
       background: var(--card);
       padding: 25px;
@@ -55,16 +55,16 @@
       font-weight: 600;
       font-size: 14px;
     }
-    input, select, textarea {
+    input, select {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
       font-size: 15px;
       outline: none;
       transition: 0.2s;
     }
-    input:focus, select:focus, textarea:focus {
+    input:focus, select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
@@ -73,48 +73,52 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 12px;
+      padding: 13px;
       font-size: 16px;
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 5px;
       transition: 0.2s;
     }
     .btn:hover {
       background: var(--primary-dark);
     }
-    /* टोकन स्लिप स्टाइल */
+    /* टोकन स्लिप */
     #slip-card {
       display: none;
       border: 2px dashed #0284c7;
       background: #f0f9ff;
       padding: 20px;
       border-radius: 10px;
-      margin-top: 20px;
+      margin-top: 10px;
     }
     .slip-header {
       text-align: center;
       margin-bottom: 12px;
     }
     .token-number {
-      font-size: 28px;
+      font-size: 36px;
       font-weight: bold;
       color: #0369a1;
       text-align: center;
-      margin: 8px 0;
+      margin: 10px 0 15px 0;
+      background: #e0f2fe;
+      padding: 8px;
+      border-radius: 8px;
     }
     .slip-row {
       display: flex;
       justify-content: space-between;
-      margin: 6px 0;
-      font-size: 14px;
+      margin: 8px 0;
+      font-size: 15px;
       border-bottom: 1px dotted #cbd5e1;
       padding-bottom: 4px;
     }
     .slip-btns {
       display: flex;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 20px;
     }
     .btn-secondary {
       background: #64748b;
@@ -150,7 +154,7 @@
       <p>जन सेवा केंद्र (CSC) / प्राथमिक स्वास्थ्य केंद्र</p>
     </div>
 
-    <!-- रजिस्ट्रेशन फॉर्म -->
+    <!-- फॉर्म -->
     <form id="opdForm">
       <div class="form-group">
         <label for="pName">मरीज का पूरा नाम *</label>
@@ -175,17 +179,7 @@
 
       <div class="form-group">
         <label for="pPhone">मोबाइल नंबर *</label>
-        <input type="tel" id="pPhone" pattern="[0-9]{10}" placeholder="10 अंकों का नंबर" required>
-      </div>
-
-      <div class="form-group">
-        <label for="pDept">विभाग (Department) *</label>
-        <select id="pDept" required>
-          <option value="सामान्य चिकित्सा (General OPD)">सामान्य चिकित्सा (General Medicine)</option>
-          <option value="बाल रोग (Pediatrics)">बाल रोग (Pediatrics)</option>
-          <option value="दंत रोग (Dental)">दंत रोग (Dental)</option>
-          <option value="स्त्री रोग (Gynecology)">स्त्री रोग (Gynecology)</option>
-        </select>
+        <input type="tel" id="pPhone" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर" required>
       </div>
 
       <div class="form-group">
@@ -193,39 +187,36 @@
         <input type="date" id="pDate" required>
       </div>
 
-      <div class="form-group">
-        <label for="pSymptoms">मुख्य समस्या / लक्षण (वैकल्पिक)</label>
-        <textarea id="pSymptoms" rows="2" placeholder="उदा. 2 दिन से बुखार, खांसी"></textarea>
-      </div>
-
       <button type="submit" class="btn">ओपीडी पर्ची जनरेट करें</button>
     </form>
 
-    <!-- पर्ची / टोकन स्लिप (फॉर्म सबमिट होने के बाद दिखेगी) -->
+    <!-- पर्ची (टोकन) -->
     <div id="slip-card">
       <div class="slip-header">
         <h3>ओपीडी अप्वाइंटमेंट पर्ची</h3>
-        <p style="font-size: 12px; color: #475569;">कृपया यह टोकन क्लिनिक में दिखाएं</p>
+        <p style="font-size: 13px; color: #475569;">कृपया यह टोकन क्लिनिक में दिखाएं</p>
       </div>
-      <div class="token-number" id="sToken">OPD-101</div>
+
+      <div class="token-number" id="sToken">OPD-1</div>
+
       <div class="slip-row"><span>मरीज का नाम:</span> <strong id="sName">-</strong></div>
       <div class="slip-row"><span>उम्र / लिंग:</span> <strong id="sAgeGender">-</strong></div>
       <div class="slip-row"><span>मोबाइल:</span> <strong id="sPhone">-</strong></div>
-      <div class="slip-row"><span>विभाग:</span> <strong id="sDept">-</strong></div>
-      <div class="slip-row"><span>तारीख:</span> <strong id="sDate">-</strong></div>
+      <div class="slip-row"><span>दिखाने की तारीख:</span> <strong id="sDate">-</strong></div>
 
       <div class="slip-btns">
-        <button class="btn" onclick="window.print()">पर्ची प्रिंट / PDF सेव करें</button>
-        <button class="btn btn-secondary" onclick="newBooking()">नया रजिस्ट्रेशन</button>
+        <button type="button" class="btn" onclick="window.print()">पर्ची प्रिंट / PDF सेव करें</button>
+        <button type="button" class="btn btn-secondary" onclick="newBooking()">नया रजिस्ट्रेशन</button>
       </div>
     </div>
   </div>
 
   <script>
-    // आज की न्यूनतम तारीख सेट करना
+    // आज की तारीख सेट करना
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('pDate').setAttribute('min', today);
-    document.getElementById('pDate').value = today;
+    const dateInput = document.getElementById('pDate');
+    dateInput.setAttribute('min', today);
+    dateInput.value = today;
 
     const form = document.getElementById('opdForm');
     const slip = document.getElementById('slip-card');
@@ -233,25 +224,36 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // रैंडम 3-अंकों का टोकन नंबर
-      const randomNum = Math.floor(100 + Math.random() * 900);
-      const token = "OPD-" + randomNum;
+      // रोज 1 से शुरू होने वाला टोकन लॉजिक
+      const selectedDate = dateInput.value;
+      const savedDate = localStorage.getItem('opd_last_date');
+      let currentCounter = parseInt(localStorage.getItem('opd_daily_counter') || '0', 10);
+
+      // यदि तारीख बदल गई है तो टोकन वापस 1 से शुरू होगा
+      if (savedDate !== selectedDate) {
+        currentCounter = 1;
+      } else {
+        currentCounter += 1;
+      }
+
+      // अपडेटेड नंबर सेव करना
+      localStorage.setItem('opd_last_date', selectedDate);
+      localStorage.setItem('opd_daily_counter', currentCounter);
+
+      const token = "OPD-" + currentCounter;
 
       // फॉर्म से डेटा लेना
       const name = document.getElementById('pName').value;
       const age = document.getElementById('pAge').value;
       const gender = document.getElementById('pGender').value;
       const phone = document.getElementById('pPhone').value;
-      const dept = document.getElementById('pDept').value;
-      const date = document.getElementById('pDate').value;
 
-      // स्लिप में डेटा भरना
+      // स्लिप में डेटा दिखाना
       document.getElementById('sToken').innerText = token;
       document.getElementById('sName').innerText = name;
       document.getElementById('sAgeGender').innerText = `${age} वर्ष / ${gender}`;
       document.getElementById('sPhone').innerText = phone;
-      document.getElementById('sDept').innerText = dept;
-      document.getElementById('sDate').innerText = date;
+      document.getElementById('sDate').innerText = selectedDate;
 
       // फॉर्म छिपाकर स्लिप दिखाना
       form.style.display = 'none';
@@ -260,10 +262,11 @@
 
     function newBooking() {
       form.reset();
-      document.getElementById('pDate').value = today;
+      dateInput.value = today;
       form.style.display = 'block';
       slip.style.display = 'none';
     }
   </script>
 </body>
-</html>
+                                                      </html>
+                                                      
