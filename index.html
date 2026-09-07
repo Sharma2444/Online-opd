@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ऑनलाइन ओपीडी रजिस्ट्रेशन - CSC क्लिनिक</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 20px 10px;
+    }
+    .container {
+      max-width: 550px;
+      margin: auto;
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+    .header h2 {
+      color: var(--primary-dark);
+      font-size: 24px;
+    }
+    .header p {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+    .btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+    /* टोकन स्लिप स्टाइल */
+    #slip-card {
+      display: none;
+      border: 2px dashed #0284c7;
+      background: #f0f9ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .slip-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .token-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0369a1;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .slip-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+      font-size: 14px;
+      border-bottom: 1px dotted #cbd5e1;
+      padding-bottom: 4px;
+    }
+    .slip-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .btn-secondary {
+      background: #64748b;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #slip-card, #slip-card * {
+        visibility: visible;
+      }
+      #slip-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: 1px solid #000;
+      }
+      .slip-btns {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h2>ऑनलाइन ओपीडी रजिस्ट्रेशन</h2>
+      <p>जन सेवा केंद्र (CSC) / प्राथमिक स्वास्थ्य केंद्र</p>
+    </div>
+
+    <!-- रजिस्ट्रेशन फॉर्म -->
+    <form id="opdForm">
+      <div class="form-group">
+        <label for="pName">मरीज का पूरा नाम *</label>
+        <input type="text" id="pName" placeholder="उदा. राहुल कुमार" required>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <div class="form-group" style="flex: 1;">
+          <label for="pAge">उम्र (वर्ष) *</label>
+          <input type="number" id="pAge" placeholder="उदा. 28" required>
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label for="pGender">लिंग *</label>
+          <select id="pGender" required>
+            <option value="">चुनें</option>
+            <option value="पुरुष">पुरुष</option>
+            <option value="महिला">महिला</option>
+            <option value="अन्य">अन्य</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="pPhone">मोबाइल नंबर *</label>
+        <input type="tel" id="pPhone" pattern="[0-9]{10}" placeholder="10 अंकों का नंबर" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pDept">विभाग (Department) *</label>
+        <select id="pDept" required>
+          <option value="सामान्य चिकित्सा (General OPD)">सामान्य चिकित्सा (General Medicine)</option>
+          <option value="बाल रोग (Pediatrics)">बाल रोग (Pediatrics)</option>
+          <option value="दंत रोग (Dental)">दंत रोग (Dental)</option>
+          <option value="स्त्री रोग (Gynecology)">स्त्री रोग (Gynecology)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pDate">दिखाने की तारीख *</label>
+        <input type="date" id="pDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pSymptoms">मुख्य समस्या / लक्षण (वैकल्पिक)</label>
+        <textarea id="pSymptoms" rows="2" placeholder="उदा. 2 दिन से बुखार, खांसी"></textarea>
+      </div>
+
+      <button type="submit" class="btn">ओपीडी पर्ची जनरेट करें</button>
+    </form>
+
+    <!-- पर्ची / टोकन स्लिप (फॉर्म सबमिट होने के बाद दिखेगी) -->
+    <div id="slip-card">
+      <div class="slip-header">
+        <h3>ओपीडी अप्वाइंटमेंट पर्ची</h3>
+        <p style="font-size: 12px; color: #475569;">कृपया यह टोकन क्लिनिक में दिखाएं</p>
+      </div>
+      <div class="token-number" id="sToken">OPD-101</div>
+      <div class="slip-row"><span>मरीज का नाम:</span> <strong id="sName">-</strong></div>
+      <div class="slip-row"><span>उम्र / लिंग:</span> <strong id="sAgeGender">-</strong></div>
+      <div class="slip-row"><span>मोबाइल:</span> <strong id="sPhone">-</strong></div>
+      <div class="slip-row"><span>विभाग:</span> <strong id="sDept">-</strong></div>
+      <div class="slip-row"><span>तारीख:</span> <strong id="sDate">-</strong></div>
+
+      <div class="slip-btns">
+        <button class="btn" onclick="window.print()">पर्ची प्रिंट / PDF सेव करें</button>
+        <button class="btn btn-secondary" onclick="newBooking()">नया रजिस्ट्रेशन</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // आज की न्यूनतम तारीख सेट करना
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('pDate').setAttribute('min', today);
+    document.getElementById('pDate').value = today;
+
+    const form = document.getElementById('opdForm');
+    const slip = document.getElementById('slip-card');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // रैंडम 3-अंकों का टोकन नंबर
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      const token = "OPD-" + randomNum;
+
+      // फॉर्म से डेटा लेना
+      const name = document.getElementById('pName').value;
+      const age = document.getElementById('pAge').value;
+      const gender = document.getElementById('pGender').value;
+      const phone = document.getElementById('pPhone').value;
+      const dept = document.getElementById('pDept').value;
+      const date = document.getElementById('pDate').value;
+
+      // स्लिप में डेटा भरना
+      document.getElementById('sToken').innerText = token;
+      document.getElementById('sName').innerText = name;
+      document.getElementById('sAgeGender').innerText = `${age} वर्ष / ${gender}`;
+      document.getElementById('sPhone').innerText = phone;
+      document.getElementById('sDept').innerText = dept;
+      document.getElementById('sDate').innerText = date;
+
+      // फॉर्म छिपाकर स्लिप दिखाना
+      form.style.display = 'none';
+      slip.style.display = 'block';
+    });
+
+    function newBooking() {
+      form.reset();
+      document.getElementById('pDate').value = today;
+      form.style.display = 'block';
+      slip.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
